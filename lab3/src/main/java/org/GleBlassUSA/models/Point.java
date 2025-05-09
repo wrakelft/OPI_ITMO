@@ -12,7 +12,6 @@ import java.util.Date;
 @Setter
 @Getter
 @NoArgsConstructor
-
 @Entity
 public class Point implements Serializable {
     private static final long serialVersionUID = 123L;
@@ -38,7 +37,7 @@ public class Point implements Serializable {
         this.hit = calculate();
     }
 
-    private boolean calculate() {
+    public boolean calculate() {
 
         if (x <= 0 && x >= -r/2 && y >= 0 && y <= r) {
             return true;

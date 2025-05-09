@@ -12,6 +12,7 @@
         <pathelement location="${junit}"/>
         <pathelement location="${hamcrest}"/>
         <pathelement location="${classes.dir}"/>
+        <pathelement location="${jakarta}"/>
     </path>
 
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
@@ -32,6 +33,9 @@
         <mkdir dir="${classes.dir}"/>
         <mkdir dir="${test.classes.dir}"/>
         <javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath" includeantruntime="false"/>
+        <javac destdir="${test.classes.dir}" srcdir="${test.dir}" includeantruntime="false" encoding="utf-8">
+            <classpath refid="classpath.test"/>
+        </javac>
         <echo message="------COMPILING COMPLETED------"/>
     </target>
 
@@ -64,5 +68,23 @@
         </war>
         <echo message="------BUILDING COMPLETED------"/>
     </target>
+
+    <target name="test" depends="build">
+        <echo message="------TESTING------"/>
+        <mkdir dir="${junit.report.dir}"/>
+        <junit printsummary="yes" fork="yes" showoutput="true">
+            <classpath>
+                <path refid="classpath.test"/>
+                <pathelement location="${test.classes.dir}"/>
+            </classpath>
+            <formatter type="xml"/>
+            <batchtest todir="${junit.report.dir}">
+                <fileset dir="${test.dir}" includes="**/*Test.java"/>
+            </batchtest>
+        </junit>
+        <echo message="------TESTING COMPLETED------"/>
+    </target>
+
+
 
 </project>
