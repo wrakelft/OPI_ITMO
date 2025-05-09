@@ -72,19 +72,61 @@
     <target name="test" depends="build">
         <echo message="------TESTING------"/>
         <mkdir dir="${junit.report.dir}"/>
-        <junit printsummary="yes" fork="yes" showoutput="true">
-            <classpath>
-                <path refid="classpath.test"/>
-                <pathelement location="${test.classes.dir}"/>
-            </classpath>
-            <formatter type="xml"/>
-            <batchtest todir="${junit.report.dir}">
-                <fileset dir="${test.dir}" includes="**/*Test.java"/>
-            </batchtest>
-        </junit>
+        <trycatch>
+            <try>
+                <junit printsummary="yes" fork="yes" haltonfailure="true" showoutput="true">
+                    <classpath>
+                        <path refid="classpath.test"/>
+                        <pathelement location="${test.classes.dir}"/>
+                    </classpath>
+                    <formatter type="xml"/>
+                    <batchtest todir="${junit.report.dir}">
+                        <fileset dir="${test.dir}" includes="**/*Test.java"/>
+                    </batchtest>
+                </junit>
+                <property name="test.successful" value="true"/>
+            </try>
+            <catch>
+                <property name="test.failed" value="true"/>
+            </catch>
+        </trycatch>
         <echo message="------TESTING COMPLETED------"/>
     </target>
 
-
+    <target name="report" depends="test">
+        <echo message="------REPORTING------"/>
+        <condition property="tests.successful">
+            <not>
+                <isset property="tests.failed"/>
+            </not>
+        </condition>
+        <if>
+            <isset property="test.successful"/>
+            <then>
+                <move todir="${svn.dir}">
+                    <fileset dir="${junit.report.dir}" includes="TEST-*.xml"/>
+                </move>
+                <exec executable="svn">
+                    <arg value="add"/>
+                    <arg value="--force"/>
+                    <arg value="${svn.dir}/*"/>
+                </exec>
+                <exec executable="svn">
+                    <arg value="update"/>
+                    <arg value="${svn.dir}/*"/>
+                </exec>
+                <exec executable="svn">
+                    <arg value="commit"/>
+                    <arg value="${svn.dir}/*"/>
+                    <arg value="-m"/>
+                    <arg value="Report update"/>
+                </exec>
+            </then>
+            <else>
+                <echo message="Test not successful. Report hasn't been added"/>
+            </else>
+        </if>
+        <echo message="------REPORTING COMPLETED------"/>
+    </target>
 
 </project>
