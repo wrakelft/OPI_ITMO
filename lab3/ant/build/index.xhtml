@@ -7,7 +7,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>Point hit. Web lab 3</title>
+    <title>#{msg.lab}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <h:outputStylesheet library="webjars" name="primeflex/3.3.1/primeflex.min.css" />
     <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
@@ -20,12 +20,12 @@
 
     <!-- Header -->
     <h:panelGroup layout="block" styleClass="header-container">
-        <h1 class="header-title">Лабораторная работа <span class="pink-header">№ 3</span></h1>
-        <h1>Дисциплина: <span class="pink-header">Веб-программирование</span></h1>
+        <h1 class="header-title">#{msg.lab_title}</h1>
+        <h1>#{msg.subject} <span class="pink-header">#{msg.subject_name}</span></h1>
         <h2 class="author-info">
-            ФИО: <span class="pink-header">Алферов Глеб Александрович</span>,
-            Группа: <span class="pink-header">P3207</span>,
-            Вариант: <span class="pink-header">409433</span>
+            #{msg.fio} <span class="pink-header">#{msg.name_of_person}</span>
+            #{msg.group} <span class="pink-header">#{msg.num_group}</span>
+            #{msg.variant} <span class="pink-header">#{msg.num_variant}</span>
         </h2>
     </h:panelGroup>
 
@@ -42,7 +42,7 @@
 
     <!-- Button "Start Play" -->
     <div class="flex align-items-center justify-content-center" style="height: 100vh;">
-        <p:button value="Начать"
+        <p:button value='#{msg.start}'
                   outcome="main.xhtml"
                   styleClass="text-4xl px-6 py-4" />
     </div>

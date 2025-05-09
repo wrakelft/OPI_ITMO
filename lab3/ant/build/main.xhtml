@@ -7,7 +7,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>Point hit. Web lab 3</title>
+    <title>#{msg.lab}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <h:outputStylesheet library="webjars" name="primeflex/3.3.1/primeflex.min.css" />
     <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
@@ -20,12 +20,12 @@
 
     <!-- Header -->
     <h:panelGroup layout="block" styleClass="header-container">
-        <h1 class="header-title">Лабораторная работа <span class="pink-header">№ 3</span></h1>
-        <h1>Дисциплина: <span class="pink-header">Веб-программирование</span></h1>
+        <h1 class="header-title">#{msg.lab_title}</h1>
+        <h1>#{msg.subject} <span class="pink-header">#{msg.subject_name}</span></h1>
         <h2 class="author-info">
-            ФИО: <span class="pink-header">Алферов Глеб Александрович</span>,
-            Группа: <span class="pink-header">P3207</span>,
-            Вариант: <span class="pink-header">409433</span>
+            #{msg.fio} <span class="pink-header">#{msg.name_of_person}</span>
+            #{msg.group} <span class="pink-header">#{msg.num_group}</span>
+            #{msg.variant} <span class="pink-header">#{msg.num_variant}</span>
         </h2>
     </h:panelGroup>
 
@@ -34,9 +34,9 @@
         <p:splitter>
             <p:splitterPanel styleClass="flex align-items-center justify-content-center">
                 <h:form id="data-form">
-                    <h6>X: </h6>
+                    <h6>#{msg.x_label} </h6>
                     <h:panelGrid>
-                        <p:selectOneMenu id="x" value="#{formBean.x}" required="true" requiredMessage="X is required">
+                        <p:selectOneMenu id="x" value="#{formBean.x}" required="true" requiredMessage='#{msg.x_ms}'>
                             <f:selectItem itemLabel="-2" itemValue="#{-2}" />
                             <f:selectItem itemLabel="-1.5" itemValue="#{-1.5}" />
                             <f:selectItem itemLabel="-1" itemValue="#{-1}" />
@@ -52,16 +52,16 @@
                     <!-- Поле Y: inputText -->
                     <div class="field col-12 md:col-4">
                         <!--                        <p:outputLabel for="y" value="Y: "/>-->
-                        <h6>Y: </h6>
-                        <p:inputText id="y" placeholder="(-5 ... 3)" value="#{formBean.y}" required="true" requiredMessage="Y is required" validatorMessage="Y must be in [-5; 3]">
+                        <h6>#{msg.y_label} </h6>
+                        <p:inputText id="y" placeholder="(-5 ... 3)" value="#{formBean.y}" required="true" requiredMessage="#{msg.y_ms}" validatorMessage="#{msg.y_er}">
                             <f:validateDoubleRange minimum="-5" maximum="3"/>
                             <p:ajax event="input" update="graph-container" process="@this y" oncomplete="addSvgListener()" />
                         </p:inputText>
                     </div>
 
 
-                    <h6>R: </h6>
-                    <p:selectOneMenu id="r" value="#{formBean.r}" required="true" requiredMessage="R is required" widgetVar="r">
+                    <h6>#{msg.r_label} </h6>
+                    <p:selectOneMenu id="r" value="#{formBean.r}" required="true" requiredMessage="#{msg.r_ms}" widgetVar="r">
                         <f:selectItem itemLabel="1" itemValue="1" />
                         <f:selectItem itemLabel="2" itemValue="2" />
                         <f:selectItem itemLabel="3" itemValue="3" />
@@ -79,7 +79,7 @@
 
                     <!-- Кнопка отправки формы -->
                     <p:commandButton icon="pi pi-check"
-                                     id="btn_cfrm" value="Отправить" action="#{formBean.submit(false)}" ajax="true"
+                                     id="btn_cfrm" value="#{msg.send}" action="#{formBean.submit(false)}" ajax="true"
                                      update="data-form result-table graph-container"
                                      styleClass="px-4 py-2"
                                      oncomplete="addSvgListener()"
@@ -88,14 +88,13 @@
                     <!-- Кнопка очистки таблицы -->
                     <p:commandButton icon="pi pi-trash"
                                      styleClass="px-4 py-2"
-                                     id="btn_rst" value="Очистить" action="#{formBean.clear()}" ajax="true"
+                                     id="btn_rst" value="#{msg.trash}" action="#{formBean.clear()}" ajax="true"
                                      update="data-form result-table graph-container"
                                      process="@this"
                                      oncomplete="addSvgListener()"
                     />
 
                     <!-- Сообщения -->
-                    <p:messages id="messages" showDetail="false" autoUpdate="true" />
                 </h:form>
                 <h:form id="hidden-form">
                     <h:inputHidden value="#{formBean.graph_x}" id="graph-x"/>
@@ -220,30 +219,30 @@
 
     <p:panel class="flex align-items-center justify-content-center">
         <!--    <p:panel>-->
-        <p:button value="Вернуться на домашнюю страницу" outcome="index.xhtml" />
+        <p:button value="#{msg.back_home}" outcome="index.xhtml" />
     </p:panel>
 
     <p:dataTable id="result-table" value="#{formBean.points}" var="point"
                  scrollable="true" scrollHeight="250"
                  style="margin-top:20px">
 
-        <p:column headerText="X" sortable="true">
+        <p:column headerText="#{msg.x_label}" sortable="true">
             <h:outputText value="#{point.x}" />
         </p:column>
 
-        <p:column headerText="Y" sortable="true">
+        <p:column headerText="#{msg.y_label}" sortable="true">
             <h:outputText value="#{point.y}" />
         </p:column>
 
-        <p:column headerText="R" sortable="true">
+        <p:column headerText="#{msg.r_label}" sortable="true">
             <h:outputText value="#{point.r}" />
         </p:column>
 
-        <p:column headerText="Попал?" sortable="true">
-            <h:outputText value="#{point.hit ? 'Попал' : 'Промазал'}" />
+        <p:column headerText="#{msg.hit}" sortable="true">
+            <h:outputText value="#{point.hit ? {msg.is_hit} : {msg.no_hit}}" />
         </p:column>
 
-        <p:column headerText="Время" sortable="true">
+        <p:column headerText="#{msg.time}" sortable="true">
             <h:outputText value="#{point.hitTime}">
                 <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
             </h:outputText>

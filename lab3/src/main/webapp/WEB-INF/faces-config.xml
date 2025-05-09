@@ -4,4 +4,15 @@
               xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
                                   https://jakarta.ee/xml/ns/jakartaee/web-facesconfig_4_0.xsd"
               version="4.0">
+    <application>
+        <locale-config>
+            <default-locale>ru</default-locale>
+            <supported-locale>ru</supported-locale>
+            <supported-locale>en</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>messages</base-name>
+            <var>msg</var>
+        </resource-bundle>
+    </application>
 </faces-config>

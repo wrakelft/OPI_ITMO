@@ -129,4 +129,12 @@
         <echo message="------REPORTING COMPLETED------"/>
     </target>
 
+    <target name="native2ascii">
+        <echo message="------NATIVE2ASCII------"/>
+        <delete dir="${native2ascii.resources}"/>
+        <native2ascii encoding="utf-8" src="${resources.dir}" dest="${native2ascii.resources}" includes="**/*.properties"/>
+        <echo message="------NATIVE2ASCII COMPLETED------"/>
+    </target>
+
 </project>
+
