@@ -42,6 +42,9 @@ public class FormBean implements Serializable {
     @Inject
     private PointService pointService;
 
+    @Inject
+    private ClickInterval clickInterval;
+
 
     @PostConstruct
     public void init() {
@@ -69,6 +72,7 @@ public class FormBean implements Serializable {
      * Method for submitting form
      */
     public String submit(boolean isGraphSubmit) {
+        clickInterval.recordClick();
         log.info("\"Submit\" click processing...");
         log.info("got point with coords x={}, y={}, r={}", x, y, r);
 
